@@ -10,6 +10,26 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+# ==============================================================
+# CONFIGURACION PARA DEPLOY EN OCI
+
+#  Directorio
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Config rutas
+PDF_FOLDER = os.path.join(BASE_DIR, "documentos")
+INDEX_PATH = os.path.join(BASE_DIR, "faiss_index_pdfs")
+ENV_PATH = os.path.join(BASE_DIR, ".env")
+
+os.makedirs(PDF_FOLDER, exist_ok=True)
+os.makedirs(os.path.dirname(INDEX_PATH), exist_ok=True)
+
+# Configuración de memoria (para la shape Micro del oci)
+# Limitamos el uso de memoria de pyTorch (embeddings)
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:128"
+os.environ["OMP_NUM_THREADS"] = "1"
+
+# ====================================================================
 
 
 # Cargamos el CSS
