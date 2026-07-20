@@ -1,0 +1,18 @@
+[Unit]
+Description=Streamlit RAG Assistant (Challenge Alura)
+After=network.target
+
+[Service]
+Type=simple
+User=agente
+WorkingDirectory=/opt/agente/CHALLENGE_ALURA
+Environment="PATH=/opt/agente/CHALLENGE_ALURA/venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/opt/agente/CHALLENGE_ALURA/start_app.sh
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=streamlit-assistant
+
+[Install]
+WantedBy=multi-user.target
