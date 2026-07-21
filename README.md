@@ -21,45 +21,9 @@
 ![pregunta 4](/evidencias/image-4.png) ![pregunta 5](/evidencias/image-5.png) ![pregunta 6](/evidencias/image-6.png)
 ![pregunta 7](/evidencias/image-7.png) ![Interfaz del Asistente](/evidencias/image.png)
 ---
-
 ## 🏗️ Arquitectura del Sistema
-┌─────────────────────────────────────────────────────────────┐
-│                 Usuario Final                               │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Streamlit (Interfaz de Usuario)                             │
-│ - Chat interactivo - Gestión de PDFs                        │
-│ - Historial de preguntas - Sidebar de control               │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌────────────────────────────────────────────────────────────┐
-│ LangChain (Orquestación RAG)                               │
-│ - RetrievalQA Chain - PriorityRetriever                    │
-│ - Prompt personalizado - Gestión de contexto               │
-└──────────────┬───────────────────────┬─────────────────────┘
-               │                       │
-               ▼                       ▼
-┌──────────────────────────┐ ┌──────────────────────────────┐
-│ Groq (LLM)               │ │ FAISS (Vector Store)         │
-│ Modelo:                  │ │ - Embeddings:                │
-│ llama-3.3-70b-versatile  │ │   multilingual-e5-small      │
-│ - Generación             │ │ - Búsqueda por similitud     │
-│ - Síntesis               │ │ - Índice persistente         │
-└──────────────────────────┘ └──────────────────────────────┘
-                │
-                ▼
-┌─────────────────────────────────────────────────────────────┐
-│ Documentos PDF (Fuentes de información)                     │
-│ - Guía Oficial Back end.pdf                                 │
-| - Arquitectura de Microservicios y Mapa de Dominios.pdf     │
-│ - Guía Oficial de Ingenieria Front-end.pdf                  │
-| - Manual de Onboarding para Nuevos Desarrolladores.pdf      │
-│ - Protocolo de Respuestas a incidentes y Post-Mortems.pdf   │
-└─────────────────────────────────────────────────────────────┘
 
+![Arquitectura del sistema :](/evidencias/arquitectura_del_sistema.png)
 
 ### Flujo de Procesamiento
 
@@ -109,24 +73,34 @@ El sistema implementa un `PriorityRetriever` que:
 
 ```bash
 git clone https://github.com/Monkey-D-Roberto/CHALLENGE_ALURA.git
+
 cd CHALLENGE_ALURA
 ```
 ### 2. Crear y activar entorno virtual
-# Windows
+**Windows**
+```bash
 python -m venv venv
-venv\Scripts\activate
 
-# Mac/Linux
+venv\Scripts\activate
+```
+
+**Mac/Linux**
+```bash
 python -m venv venv
 source venv/bin/activate
+```
 
 ### 3. Instalar dependencias
+```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+```
 
 ### 4. Configurar variables de entorno
 Crea un archivo .env en la raíz del proyecto:
+```bash
 GROQ_API_KEY=tu_api_key_aqui
+```
 ⚠️ Importante: No subas el archivo .env a GitHub (debe estar en .gitignore)
 
 ### 5. Estructurar documentos
@@ -187,41 +161,18 @@ sudo systemctl status streamlit
 sudo journalctl -u streamlit -f
 ```
 ## 📚 Ejemplos de Preguntas y Respuestas
-1.-¿Ques es Onboarding?
-2.- ¿Que es arquitectura de Microservicios?
-3.- En la guia oficial back end , que nos menciona del termino microservicios?
-4.- ¿Que me puedes mencionar sobre la pólitica de On-Call y pagerduty?
-5.- Que es el error Budget?
+1. **¿Ques es Onboarding?**
+2. **¿Que es arquitectura de Microservicios?**
+3. **En la guia oficial back end , que nos menciona del termino microservicios?**
+4. **¿Que me puedes mencionar sobre la pólitica de On-Call y pagerduty?**
+5. **Que es el error Budget?**
 
 ## 🗂️ Estructura del Proyecto
-CHALLENGE_ALURA/
-├── documentos/                  # Carpeta con los PDFs (no subir a git si son grandes)
-│   ├── Guía Oficial Back end.pdf
-│   ├── Guía Oficial de Ingeniería Front-end.pdf
-│   ├── Arquitectura de Microservicios y Mapa de Dominios.pdf
-│   ├── Manual de Onboarding para Nuevos Desarrolladores.pdf
-│   └── Protocolo de Respuestas a incidentes y Post-Mortems.pdf
-│
-├── styles/                      # Estilos CSS para la interfaz
-│   ├── main.css                 # Estilos generales
-│   └── header.css               # Estilos del header
-│
-├── image/                       # Imágenes y logos
-│   ├── logo.png
-│   └── logochat.png
-│
-├── app_streamlit.py             # Aplicación principal (interfaz)
-├── consulta_agent.py            # Lógica del agente RAG
-├── ingest_pdfs.py               # Script para generar el índice FAISS
-├── start_app.sh                 # Script de inicio para el servicio
-├── streamlit.service            # Archivo de servicio systemd
-├── requirements.txt             # Dependencias del proyecto
-├── .env                         # Variables de entorno
-├── .gitignore                   # Archivos ignorados por Git
-└── README.md                    # Documentación del proyecto
+
+![Estructura del proyecto: ](/evidencias/estructura_del_proyecto.png)
 
 ## ⚠️ Limitaciones y Consideraciones Técnicas
-Este proyecto fue desplegado en una instancia de OCI con Shape VM.Standard.E2.1.Micro (1 GB de RAM), lo que impone ciertas restricciones:
+Este proyecto fue desplegado en una instancia de OCI con **Shape VM.Standard.E2.1.Micro** (1 GB de RAM), lo que impone ciertas restricciones:
 
 ### 1. Memoria y Rendimiento
 Uso de Swap: Para cargar los modelos de embeddings (intfloat/multilingual-e5-small), fue obligatorio configurar un swap de 4 GB. Sin este, la aplicación no podría ejecutarse.
@@ -238,7 +189,7 @@ Modelos de Embeddings: Se utiliza intfloat/multilingual-e5-small, que es un equi
 Almacenamiento: El índice FAISS y los documentos se almacenan en el disco de la instancia.
 
 ### 3. Pasos a Futuro para una Versión de Producción
-Si el proyecto crece, se recomienda:
+**Si el proyecto crece, se recomienda:**
 
 Migrar a una instancia con más RAM (ej. VM.Standard.A1.Flex con 4 OCPU y 24 GB RAM).
 Implementar un Load Balancer para gestionar el tráfico.
@@ -266,37 +217,40 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
  # Por:
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 ```
-Instala el paquete: pip install langchain-text-splitters
+Instala el paquete:
+```bash
+ pip install langchain-text-splitters
+```
 
 ## 📝 Mejoras Futuras
-□ Soporte para más formatos (Word, Excel, HTML)
-□ Sistema de feedback de respuestas
-□ Autenticación de usuarios
-□ Exportar conversaciones
-□ Dashboard de estadísticas de uso
-□ Búsqueda por metadatos (autor, fecha, categoría)
+- **Soporte para más formatos (Word, Excel, HTML)**
+- **Sistema de feedback de respuestas**
+- **Autenticación de usuarios**
+- **Exportar conversaciones**
+- **Dashboard de estadísticas de uso**
+- **Búsqueda por metadatos (autor, fecha, categoría)**
 
 ## 📄 Licencia
 Este proyecto está bajo la Licencia MIT. Ver el archivo LICENSE para más detalles.
 
 ## 👥 Autor
-Roberto Carlos
-Proyecto desarrollado como parte del Challenge AluraLatam - Programa Oracle Next Education (ONE).
+- **Roberto Carlos**
+- **Proyecto desarrollado como parte del Challenge AluraLatam - Programa Oracle Next Education (ONE).**
 
 ![GitHub:] (https://github.com/Monkey-D-Roberto/CHALLENGE_ALURA)
 
 ![LinkedIn:] (https://www.linkedin.com/in/roberto-borja-04991834a/)
 
 ## 🙏 Agradecimientos
-**Alura Latam** - Por el desafío y la inspiración
-**Groq** - Por proporcionar el modelo LLM de alto rendimiento
-**LangChain** - Por la excelente framework de orquestación
-**Streamlit** - Por hacer la creación de interfaces tan sencilla
-**Oracle Cloud Infrastructure** - Por la plataforma de despliegue
+- **Alura Latam** : Por el desafío y la inspiración
+- **Groq** : Por proporcionar el modelo LLM de alto rendimiento
+- **LangChain** : Por la excelente framework de orquestación
+- **Streamlit** : Por hacer la creación de interfaces tan sencilla
+- **Oracle Cloud Infrastructure** : Por la plataforma de despliegue
 
 ## 📊 Estado del Proyecto
-✅ Fase 1 (Ingesta y RAG) - Completada
-✅ Fase 2 (Repositorio y Documentación) - Completada
-✅ Fase 3 (Deploy en OCI) - Completada
+- ✅ Fase 1 (Ingesta y RAG) : Completada
+- ✅ Fase 2 (Repositorio y Documentación) : Completada
+- ✅ Fase 3 (Deploy en OCI) : Completada
 
 ⭐ Si te gusta este proyecto, no olvides darle una estrella en GitHub!
