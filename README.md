@@ -15,7 +15,9 @@
 
 ## 🎥 Demo del Proyecto
 
-![Demo Shadow AI en acción :](/movie/shadow%20AI.mp4)
+[![Ver Demo de SHADOW en YouTube](https://img.youtube.com/vi/bszW5tQLYrM/0.jpg)](https://www.youtube.com/watch?v=bszW5tQLYrM)
+
+*Haz clic en la imagen para ver la demostración del asistente en acción.*
 
 > ![pregunta 1](/evidencias/image-1.png) ![pregunta 2](/evidencias/image-2.png) ![pregunta 3](/evidencias/image-3.png)
 ![pregunta 4](/evidencias/image-4.png) ![pregunta 5](/evidencias/image-5.png) ![pregunta 6](/evidencias/image-6.png)
